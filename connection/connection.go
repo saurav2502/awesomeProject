@@ -1,0 +1,4 @@
+package connection
+
+func CreateDBConnection() {
+}
