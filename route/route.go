@@ -2,12 +2,12 @@ package route
 
 import (
 	"awesomeProject/config"
+	log "awesomeProject/log"
 	"awesomeProject/service"
 	_ "awesomeProject/service"
 	"fmt"
 	"github.com/gorilla/mux"
 	"github.com/spf13/viper"
-	"log"
 	"net/http"
 	"strconv"
 )
@@ -45,6 +45,7 @@ func (app *App) Run() {
 	fmt.Println("Port is\t\t", configuration.Server.Port)
 	fmt.Println("DBURL is\t\t", configuration.Database.DbUrl)
 	port := ":" + strconv.Itoa(configuration.Server.Port)
+	log := log.InfoLogger
 	log.Print("App is running on the port ", port)
 	log.Fatal(http.ListenAndServe(port, app.Router))
 }
@@ -52,4 +53,5 @@ func (app *App) Run() {
 func (app *App) InitialiseRoutes() {
 	app.Router = mux.NewRouter()
 	app.Router.HandleFunc("/", service.Handle)
+	app.Router.HandleFunc("/app/lifecycle/1.0/endpoints", service.HandleEndPoints)
 }

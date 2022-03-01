@@ -14,5 +14,5 @@ RUN go mod download
 
 RUN cd /awesomeProject && go build ./main.go
 
-EXPOSE 8083
+EXPOSE 9004
 CMD [ "./main" ]
