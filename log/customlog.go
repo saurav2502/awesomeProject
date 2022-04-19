@@ -49,8 +49,11 @@ func GetRequestURI(req *http.Request) string {
 }
 
 func createEmptyFile() {
-	if _, err := os.Stat("logs"); os.IsNotExist(err) {
-		err := os.Mkdir("logs", 0755)
-		ErrorLogger.Printf("Error while creating logs directory %v", err)
+	path, _ := os.Getwd()
+	if _, err := os.Stat(path + "/logs"); os.IsNotExist(err) {
+		err := os.Mkdir(path+"/logs", 0700)
+		if err != nil {
+			ErrorLogger.Printf("Error while creating logs directory %v", err)
+		}
 	}
 }

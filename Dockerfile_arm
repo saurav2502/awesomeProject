@@ -1,0 +1,18 @@
+FROM golang:latest as builder
+
+WORKDIR /go/src/awesomeProject
+ADD . /go/src/awesomeProject
+
+COPY go.mod ./
+COPY go.sum ./
+RUN go mod download
+
+RUN go build -o main .
+
+FROM alpine:latest
+WORKDIR /awesomeProject
+COPY --from=builder /go/src/awesomeProject/ /awesomeProject/
+
+EXPOSE 9004
+
+CMD [ "./main" ]
